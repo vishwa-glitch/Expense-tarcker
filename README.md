@@ -2,7 +2,6 @@
 
 ## Overview
 The Expense Tracker API is a backend application that allows users to manage their expenses effectively. It provides secure endpoints to create, update, retrieve, and filter expenses. Users can categorize expenses, track payments, and apply date-based filters to view expenses over specific time periods.
-For more details about the project roadmap and features, visit [Expense Tracker API Roadmap](https://roadmap.sh/projects/expense-tracker-api).
 ---
 
 ## Features
