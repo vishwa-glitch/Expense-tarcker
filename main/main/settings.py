@@ -39,6 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "expenses",
     'rest_framework',
+    "receipt",
+    #'corsheaders',  # To handle cross-origin requests
+    'django_filters',
+    'income',
+    'budget'
 ]
 
 MIDDLEWARE = [
@@ -127,7 +132,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Set access token expiration to 30 minutes
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1030),  # Set access token expiration to 30 minutes
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Set refresh token expiration to 7 days             
     'BLACKLIST_AFTER_ROTATION': True,          
 }
@@ -140,3 +145,63 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'debug.log'),
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 3,  # Keep last 3 files
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        '': {  # Root logger
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+        },
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+    },
+}
+from decouple import config
+
+GENAI_API_KEY = config('GENAI_API_KEY')
+import environ
+
+env = environ.Env()
+environ.Env.read_env()  # Reads the .env file
+
+GENAI_API_KEY = env('GENAI_API_KEY')
