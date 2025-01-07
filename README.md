@@ -1,137 +1,66 @@
-# Expense Tracker API
+# Financial Manager App - Backend
 
 ## Overview
-The Expense Tracker API is a backend application that allows users to manage their expenses effectively. It provides secure endpoints to create, update, retrieve, and filter expenses. Users can categorize expenses, track payments, and apply date-based filters to view expenses over specific time periods.
----
 
-## Features
-- **User Authentication:** Secure authentication using JWT (JSON Web Tokens).
-- **Expense Management:**
-  - Create, update, retrieve, and delete expenses.
-  - Categorize expenses and add descriptions.
-  - Filter expenses by date ranges, such as the past week, month, or custom ranges.
-- **Payment Tracking:**
-  - Record payment methods such as cash, credit card, and digital wallets.
-- **Validation:**
-  - Ensures expenses have positive amounts.
-  - Prevents future-dated expenses.
-- **Secure API:** All endpoints are protected and accessible only to authenticated users.
+The **Financial Manager App** provides a backend solution for managing budgets, tracking income, and monitoring expenses. The app empowers users to effectively control their financial health by offering budget tracking, income management, and expense monitoring, along with analytics and notifications.
 
----
+## Key Features
 
-## Installation
+### 1. **Budget Management**
+   - **Create, View, Update, and Delete Budgets**: Users can manage their personal or family budgets for different periods (e.g., monthly, annually).
+   - **Budget Tracking**: Automatically calculates total spending and remaining balance by aggregating expenses across various categories.
+   - **Budget Status**: Users can check the overall status of each budget, including the total spent and remaining amounts.
+   - **Rollover Feature**: Users can enable the rollover option to transfer remaining funds from one budget period to the next, along with category adjustments.
+   - **Category Allocation**: Assign budgets to different categories (e.g., groceries, entertainment) with specific spending limits.
 
-### Prerequisites
-- Python 3.8+
-- Django 4+
-- Django REST Framework
-- Django REST Framework Simple JWT
+### 2. **Income Management**
+   - **Track Income**: Users can add and manage income entries, including different types such as salary, freelance earnings, or investment returns.
+   - **Recurring Income**: Supports tracking of recurring income sources (e.g., monthly salary), making it easy to automate income tracking.
+   - **Income Analytics**: Provides insights into income trends, allowing users to analyze earnings over a specified period.
+   - **Income Summary**: Users can get a summarized view of their income by month or year to evaluate their financial progress.
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/vishwa-glitch/Expense-tracker.git
-   cd Expense-tracker
+### 3. **Expense Management**
+   - **Track Expenses**: Users can add expenses that are categorized under specific budget categories.
+   - **Expense Monitoring**: Automatically calculates the amount spent within each budget category and updates the remaining budget accordingly.
+   - **Expense Insights**: Provides detailed views of spending habits and trends, helping users understand where they are overspending or saving.
+   - **Expense Alerts**: Future plans include alerting users when they are nearing or exceeding budget limits in any category.
+
+### 4. **Budget Notifications**
+   - **Notification System**: Users receive notifications related to their budgets and categories (e.g., when nearing a budget limit).
+   - **Mark Notifications as Read**: Users can mark individual notifications as read or mark all notifications in bulk to keep track of alerts.
+
+## Future Enhancements
+The following features are planned for future releases:
+   - **Budget Alerts**: Automatic notifications when the user is approaching or exceeding budget limits.
+   - **Advanced Analytics**: Detailed insights on income and spending with year-over-year and month-over-month comparisons.
+   - **Expense Logging**: Real-time expense tracking and updates for user convenience.
+   - **Multi-currency Support**: Support for managing finances in different currencies with automatic currency conversion.
+   - **External Integrations**: Future integration with financial services to automatically track bank transactions and external income/expenses.
+   - **Custom User Themes**: Ability for users to personalize the app’s appearance.
+   - **AI-driven Budgeting**: Personalized budgeting suggestions based on past spending habits and trends.
+
+## Setup and Installation
+
+1. Clone this repository.
+2. Set up the environment variables according to your database and project configuration.
+3. Install dependencies:
    ```
-
-2. Install dependencies:
-   ```bash
    pip install -r requirements.txt
    ```
-
-3. Apply migrations:
-   ```bash
+4. Run migrations:
+   ```
    python manage.py migrate
    ```
-
-4. Start the development server:
-   ```bash
+5. Start the development server:
+   ```
    python manage.py runserver
    ```
 
-5. Access the application at `http://127.0.0.1:8000/`.
+## Technologies Used
 
----
-
-## API Endpoints
-
-### Authentication
-- **Obtain Token:**
-  - `POST /api/token/`
-  - Request body: `{ "username": "<username>", "password": "<password>" }`
-
-- **Refresh Token:**
-  - `POST /api/token/refresh/`
-  - Request body: `{ "refresh": "<refresh_token>" }`
-
-### Expense Management
-- **Retrieve Expenses:**
-  - `GET /api/expenses/`
-  - Query parameters:
-    - `filter`: `past_week`, `past_month`, `last_3_months`, or `custom`.
-    - `start_date` and `end_date`: Required for `custom` filter.
-
-- **Create Expense:**
-  - `POST /api/expenses/`
-  - Request body:
-    ```json
-    {
-      "category": "FOOD",
-      "amount": 50.00,
-      "date": "2024-12-01",
-      "description": "Lunch at a restaurant",
-      "payment_methods": "CASH"
-    }
-    ```
-
-- **Update Expense:**
-  - `PUT /api/expenses/{id}/`
-  - Request body: Similar to create expense.
-
-- **Delete Expense:**
-  - `DELETE /api/expenses/{id}/`
-
----
-
-## Models
-
-### Expenses
-| Field            | Type           | Description                          |
-|------------------|----------------|--------------------------------------|
-| `user`           | ForeignKey     | Authenticated user who owns expense |
-| `amount`         | DecimalField   | Expense amount                      |
-| `category`       | CharField      | Expense category                    |
-| `description`    | CharField      | Optional expense description         |
-| `date`           | DateField      | Date of the expense                 |
-| `payment_methods`| CharField      | Payment method used                 |
-
----
-
-## Validation Rules
-- Amount must be greater than zero.
-- Date must not be in the future.
-- Both category and payment method are required.
-
----
-
-## Filtering
-- **Past Week:** Filters expenses from the past 7 days.
-- **Past Month:** Filters expenses from the past 30 days.
-- **Last 3 Months:** Filters expenses from the past 90 days.
-- **Custom Date Range:** Specify `start_date` and `end_date` query parameters.
-
----
-
-## Contributing
-Feel free to fork the repository and submit pull requests. Contributions are always welcome.
-
----
-
-## License
-This project is licensed under the MIT License.
-
----
-
-## Contact
-For any issues or queries, please reach out to [vishwa12550@gmail.com](mailto:vishwa12550@gmail.com).
-
+- **Django**: Web framework for building the backend.
+- **Django REST Framework**: For API development.
+- **PostgreSQL**: Database for storing user data and financial records.
+- **Celery**: (Planned for future) Task queue for handling background processes, such as sending notifications.
+- **Docker**: (Planned for future) Containerization of the app to simplify deployment.
+- 
